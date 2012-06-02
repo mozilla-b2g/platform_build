@@ -23,21 +23,35 @@
 HOST_GLOBAL_CFLAGS += -m32
 HOST_GLOBAL_LDFLAGS += -m32
 
-# Use the Mac OSX SDK 10.5 if the build host is 10.6
+# try to correctly find the 10.6 or at least the 10.5 sdk sysroot
+# base version of OS X shouldn't matter..
 build_mac_version := $(shell sw_vers -productVersion)
-ifneq ($(filter 10.6.%, $(build_mac_version)),)
-sdk_105_root := /Developer/SDKs/MacOSX10.5.sdk
-ifeq ($(wildcard $(sdk_105_root)),)
-$(warning *****************************************************)
-$(warning * You are building on Mac OSX 10.6.)
-$(warning * Can not find SDK 10.5 at $(sdk_105_root))
-$(warning *****************************************************)
-$(error Stop.)
+sdks_root_old := /Developer/SDKs
+platforms_root := /Applications/XCode.app/Contents/Developer/Platforms
+sdks_root := $(platforms_root)/MacOSX.platform/Developer/SDKs
+
+sdks_old := $(wildcard $sdks_root_old/*.sdk)
+sdks := $(wildcard $sdks_root/*.sdk)
+
+sdk_root := $(sdks_root)/MacOSX10.6.sdk
+ifeq ($(wildcard $(sdk_root)),)
+  sdk_root := $(sdks_root_old)/MacOSX10.6.sdk
+  ifeq ($(wildcard $(sdk_root)),)
+    sdk_root := $(sdks_root_old)/MacOSX10.5.sdk
+    ifeq ($(wildcard $(sdk_root)),)
+      $(warning ***********************************************************)
+      $(warning * No 10.6 or 10.5 SDK found, do you have Xcode installed? *)
+      $(warning ***********************************************************)
+      sdk_root :=
+    endif
+  endif
 endif
 
-HOST_GLOBAL_CFLAGS += -isysroot $(sdk_105_root) -mmacosx-version-min=10.5
-HOST_GLOBAL_LDFLAGS += -isysroot $(sdk_105_root) -mmacosx-version-min=10.5
-endif # build_mac_version is 10.6
+ifneq ($(strip sdk_root),)
+  # Only some modules will override sysroot for 10.6 / 10.5 compatibility
+  # so we leave this unset in the GLOBAL_CFLAGS (but expose HOST_SYSROOT)
+  HOST_SYSROOT := $(sdk_root)
+endif
 
 HOST_GLOBAL_CFLAGS += -fPIC
 HOST_NO_UNDEFINED_LDFLAGS := -Wl,-undefined,error
