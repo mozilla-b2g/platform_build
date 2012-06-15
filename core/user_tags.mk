@@ -46,6 +46,7 @@ OPTIONAL_USER_MODULES := \
 	a3dconvert \
 	libsampleplugin \
 	libstagefright_chromium_http \
+	libreference-cdma-sms \
 
 GRANDFATHERED_USER_MODULES += \
 	20-dns.conf \
