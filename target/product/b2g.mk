@@ -7,6 +7,14 @@ CONFIG_ESD := no
 HTTP := android
 
 PRODUCT_PACKAGES := \
+	b2g.sh \
+	fakeperm \
+	gaia \
+	gecko \
+	init.rc \
+	init.b2g.rc \
+	rilproxy \
+	sources.xml \
 	OpenSans-BoldItalic.ttf \
 	OpenSans-Bold.ttf \
 	OpenSans-ExtraBoldItalic.ttf \
