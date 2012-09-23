@@ -33,16 +33,22 @@ sdks_root := $(platforms_root)/MacOSX.platform/Developer/SDKs
 sdks_old := $(wildcard $sdks_root_old/*.sdk)
 sdks := $(wildcard $sdks_root/*.sdk)
 
-sdk_root := $(sdks_root)/MacOSX10.6.sdk
+sdk_root := $(sdks_root)/MacOSX10.8.sdk
 ifeq ($(wildcard $(sdk_root)),)
-  sdk_root := $(sdks_root_old)/MacOSX10.6.sdk
+  sdk_root := $(sdks_root)/MacOSX10.7.sdk
   ifeq ($(wildcard $(sdk_root)),)
-    sdk_root := $(sdks_root_old)/MacOSX10.5.sdk
+    sdk_root := $(sdks_root)/MacOSX10.6.sdk
     ifeq ($(wildcard $(sdk_root)),)
-      $(warning ***********************************************************)
-      $(warning * No 10.6 or 10.5 SDK found, do you have Xcode installed? *)
-      $(warning ***********************************************************)
-      sdk_root :=
+      sdk_root := $(sdks_root_old)/MacOSX10.6.sdk
+      ifeq ($(wildcard $(sdk_root)),)
+        sdk_root := $(sdks_root_old)/MacOSX10.5.sdk
+        ifeq ($(wildcard $(sdk_root)),)
+          $(warning ***********************************************************)
+          $(warning * No 10.5 -- 10.8 SDK found, do you have Xcode installed? *)
+          $(warning ***********************************************************)
+          sdk_root :=
+        endif
+      endif
     endif
   endif
 endif
