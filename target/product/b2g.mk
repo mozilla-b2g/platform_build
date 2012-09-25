@@ -25,3 +25,8 @@ PRODUCT_PACKAGES := \
 	OpenSans-Regular.ttf \
 	OpenSans-SemiboldItalic.ttf \
 	OpenSans-Semibold.ttf
+
+ifeq ($(ENABLE_LIBRECOVERY),true)
+PRODUCT_PACKAGES += \
+  librecovery
+endif
