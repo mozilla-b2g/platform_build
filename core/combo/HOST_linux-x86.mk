@@ -56,3 +56,14 @@ HOST_GLOBAL_CFLAGS += \
 HOST_GLOBAL_CFLAGS += -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
 
 HOST_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
+
+# Check that our host CC and CXX aren't too new.
+check_version_rv := $(shell build/tools/check-gcc-version.py "$(HOST_CC)"; echo "$$?")
+ifneq ($(check_version_rv),0)
+  $(error Incompatible HOST_GCC)
+endif
+
+check_version_rv := $(shell build/tools/check-gcc-version.py "$(HOST_CXX)"; echo "$$?")
+ifneq ($(check_version_rv),0)
+  $(error Incompatible HOST_GCC)
+endif
