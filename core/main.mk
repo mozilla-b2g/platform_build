@@ -812,3 +812,12 @@ modules:
 .PHONY: showcommands
 showcommands:
 	@echo >/dev/null
+
+package-tests: gaia-tests-zip
+
+TESTS_DIR=$(HOST_OUT)/tests
+.PHONY: package-tests
+package-tests:
+	rm -rf $(TESTS_DIR)
+	mkdir $(TESTS_DIR)
+	cp gaia/gaia-tests.zip $(TESTS_DIR)
