@@ -544,14 +544,6 @@ built_shared_libraries := \
       $(addsuffix $(so_suffix), \
         $(LOCAL_SHARED_LIBRARIES)))
 
-ifeq ($(ENABLE_GLOBAL_PRELINK),1)
-# Prelinker creates dependencies on system libraries.
-built_system_shared_libraries := \
-    $(addprefix $($(my_prefix)OUT_INTERMEDIATE_LIBRARIES)/, \
-      $(addsuffix $(so_suffix), \
-        $(LOCAL_SYSTEM_SHARED_LIBRARIES)))
-endif
-
 my_system_shared_libraries_fullpath := \
     $(my_ndk_stl_shared_lib_fullpath) \
     $(addprefix $(my_ndk_version_root)/usr/lib/, \
@@ -621,7 +613,6 @@ $(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_ALL_OBJECTS := $(all_objects)
 ###########################################################
 # all_libraries is used for the dependencies on LOCAL_BUILT_MODULE.
 all_libraries := \
-    $(built_system_shared_libraries) \
     $(built_shared_libraries) \
     $(built_static_libraries) \
     $(built_whole_libraries)
