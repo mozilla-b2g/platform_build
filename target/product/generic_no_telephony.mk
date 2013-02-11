@@ -67,7 +67,7 @@ PRODUCT_COPY_FILES := \
         system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf \
         frameworks/base/media/libeffects/data/audio_effects.conf:system/etc/audio_effects.conf
 
-$(call inherit-product-if-exists, frameworks/base/data/fonts/fonts.mk)
+$(call inherit-product-if-exists, external/moztt/fonts.mk)
 $(call inherit-product-if-exists, external/lohit-fonts/fonts.mk)
 $(call inherit-product-if-exists, frameworks/base/data/keyboards/keyboards.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
