@@ -18,6 +18,6 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := fs_config.c
 LOCAL_MODULE := fs_config
 LOCAL_FORCE_STATIC_EXECUTABLE := true
-LOCAL_MODULE_TAGS := eng
+LOCAL_MODULE_TAGS := eng optional
 
 include $(BUILD_HOST_EXECUTABLE)
