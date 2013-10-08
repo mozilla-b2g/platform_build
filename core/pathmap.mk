@@ -28,12 +28,14 @@
 #
 pathmap_INCL := \
     bootloader:bootable/bootloader/legacy/include \
+    bluez:external/bluetooth/bluez \
     camera:system/media/camera/include \
     corecg:external/skia/include/core \
     dbus:external/dbus \
     frameworks-base:frameworks/base/include \
     frameworks-native:frameworks/native/include \
     graphics:external/skia/include/core \
+    glib:external/bluetooth/glib \
     libc:bionic/libc/include \
     libdrm1:frameworks/base/media/libdrm/mobile1/include \
     libhardware:hardware/libhardware/include \
