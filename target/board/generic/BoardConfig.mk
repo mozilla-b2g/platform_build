@@ -8,6 +8,9 @@ TARGET_NO_BOOTLOADER := true
 TARGET_NO_KERNEL := true
 TARGET_ARCH := arm
 
+# set ro.product.board
+TARGET_BOOTLOADER_BOARD_NAME := generic
+
 # Note: we build the platform images for ARMv7-A _without_ NEON.
 #
 # Technically, the emulator supports ARMv7-A _and_ NEON instructions, but
