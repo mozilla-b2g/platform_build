@@ -72,7 +72,10 @@ ifneq ($(findstring llvm-gcc,$(GCC_REALPATH)),)
     $(warning ****************************************)
 endif
 
-HOST_CXX := g++
+HOST_CXX := g++-4.6
+ifeq (,$(wildcard /usr/local/bin/g++-4.6))
+HOST_CC := g++
+endif
 HOST_AR := $(AR)
 HOST_STRIP := $(STRIP)
 HOST_STRIP_COMMAND = $(HOST_STRIP) --strip-debug $< -o $@
