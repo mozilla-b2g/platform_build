@@ -59,6 +59,12 @@ $(combo_target)STATIC_LIB_SUFFIX := .a
 # Now include the combo for this specific target.
 include $(BUILD_COMBOS)/$(combo_target)$(combo_os_arch).mk
 
+# If using distcc, make sure we get full static paths to the compilers
+ifneq ($(USE_DISTCC),)
+  $(combo_target)CC := $(realpath $($(combo_target)CC))
+  $(combo_target)CXX := $(realpath $($(combo_target)CXX))
+endif
+
 ifneq ($(USE_CCACHE),)
   CCACHE_HOST_TAG := $(HOST_PREBUILT_TAG)
   # If we are cross-compiling Windows binaries on Linux
