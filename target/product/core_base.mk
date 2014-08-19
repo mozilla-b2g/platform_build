@@ -29,6 +29,7 @@ PRODUCT_PACKAGES += \
     atrace \
     libandroidfw \
     libaudiopreprocessing \
+    libaudioroute \
     libaudioutils \
     libbcc \
     libgabi++ \
