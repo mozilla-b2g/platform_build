@@ -47,6 +47,14 @@ TARGET_TOOLS_PREFIX := \
 	prebuilt/$(HOST_PREBUILT_TAG)/toolchain/arm-linux-androideabi-4.4.x/bin/arm-linux-androideabi-
 endif
 
+ifeq ($(strip $(GECKO_TOOLS_PREFIX)),)
+    # Look for the existence of a better toolchain
+    gcc_toolchain_path := $(firstword $(wildcard prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi*/bin))
+    ifneq ($(strip $(wildcard $(gcc_toolchain_path))),)
+        GECKO_TOOLS_PREFIX := $(gcc_toolchain_path)/arm-linux-androideabi-
+    endif
+endif
+
 # Only define these if there's actually a gcc in there.
 # The gcc toolchain does not exists for windows/cygwin. In this case, do not reference it.
 ifneq ($(wildcard $(TARGET_TOOLS_PREFIX)gcc$(HOST_EXECUTABLE_SUFFIX)),)
