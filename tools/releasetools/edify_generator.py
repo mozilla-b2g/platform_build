@@ -228,6 +228,12 @@ class EdifyGenerator(object):
     cmd = "delete(" + ",\0".join(['"%s"' % (i,) for i in file_list]) + ");"
     self.script.append(self._WordWrap(cmd))
 
+  def DeleteFilesRecursive(self, file_list):
+    """Recursively delete all files and folders in file_list."""
+    if not file_list: return
+    cmd = "delete_recursive(" + ",\0".join(['"%s"' % (i,) for i in file_list]) + ");"
+    self.script.append(self._WordWrap(cmd))
+
   def RenameFile(self, srcfile, tgtfile):
     """Moves a file from one location to another."""
     if self.info.get("update_rename_support", False):

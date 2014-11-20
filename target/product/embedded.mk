@@ -51,8 +51,6 @@ PRODUCT_PACKAGES += \
     libpower \
     libstdc++ \
     libstlport \
-    libsurfaceflinger \
-    libsurfaceflinger_ddmconnection \
     libsysutils \
     libui \
     libutils \
@@ -66,7 +64,6 @@ PRODUCT_PACKAGES += \
     service \
     servicemanager \
     sh \
-    surfaceflinger \
     toolbox \
     libsigchain
 

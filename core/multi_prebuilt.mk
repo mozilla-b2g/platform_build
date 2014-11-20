@@ -23,7 +23,7 @@ endif
 prebuilt_static_libs := $(filter %.a,$(LOCAL_PREBUILT_LIBS))
 prebuilt_shared_libs := $(filter-out %.a,$(LOCAL_PREBUILT_LIBS))
 prebuilt_executables := $(LOCAL_PREBUILT_EXECUTABLES)
-prebuilt_java_libraries := $(LOCAL_PREBUILT_JAVA_LIBRARIES)
+#prebuilt_java_libraries := $(LOCAL_PREBUILT_JAVA_LIBRARIES)
 prebuilt_static_java_libraries := $(LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES)
 prebuilt_is_host := $(LOCAL_IS_HOST_MODULE)
 prebuilt_module_tags := $(LOCAL_MODULE_TAGS)

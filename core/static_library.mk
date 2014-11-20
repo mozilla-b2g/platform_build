@@ -28,6 +28,8 @@ LOCAL_BUILT_MODULE_STEM :=
 LOCAL_INSTALLED_MODULE_STEM :=
 LOCAL_INTERMEDIATE_TARGETS :=
 
+LOCAL_CFLAGS += -flax-vector-conversions
+
 include $(BUILD_SYSTEM)/static_library_internal.mk
 
 endif

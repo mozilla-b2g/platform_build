@@ -37,7 +37,6 @@ PRODUCT_PACKAGES += \
     qemu-props \
     qemud \
     camera.goldfish \
-    camera.goldfish.jpeg \
     lights.goldfish \
     gps.goldfish \
     sensors.goldfish \
@@ -49,3 +48,7 @@ PRODUCT_COPY_FILES += \
     device/generic/goldfish/init.goldfish.rc:root/init.goldfish.rc \
     device/generic/goldfish/init.goldfish.sh:system/etc/init.goldfish.sh \
     device/generic/goldfish/ueventd.goldfish.rc:root/ueventd.goldfish.rc
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.moz.ril.numclients=9 \
+    $(empty)

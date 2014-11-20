@@ -253,6 +253,22 @@ def BuildImage(in_dir, prop_dict, out_file,
   elif fs_type.startswith("f2fs"):
     build_command = ["mkf2fsuserimg.sh"]
     build_command.extend([out_file, prop_dict["partition_size"]])
+  elif fs_type.startswith("ubifs"):
+    build_command = ["mkfs_ubifs"]
+    if "selinux_fc" in prop_dict:
+      build_command.append("-S")
+      build_command.append(prop_dict["selinux_fc"])
+    build_command.append("-a")
+    build_command.append(prop_dict["mount_point"])
+    build_command.append("-r")
+    build_command.append(in_dir)
+    build_command.extend(prop_dict["ubifs_sparse_flag"].split())
+    build_command.append("-m 4096")
+    build_command.append("-e 253952")
+    build_command.append("-c")
+    build_command.append(str(int(prop_dict["partition_size"])/int(253952)))
+    build_command.append("-o")
+    build_command.append(out_file)
   else:
     build_command = ["mkyaffs2image", "-f"]
     if prop_dict.get("mkyaffs2_extra_flags", None):
@@ -304,6 +320,7 @@ def ImagePropFromGlobalDict(glob_dict, mount_point):
       d[dest_p] = str(glob_dict[src_p])
 
   common_props = (
+      "ubifs_sparse_flag",
       "extfs_sparse_flag",
       "mkyaffs2_extra_flags",
       "selinux_fc",

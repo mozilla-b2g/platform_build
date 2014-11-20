@@ -56,10 +56,8 @@ PRODUCT_PACKAGES += \
     libOpenSLES \
     libdownmix \
     libdrmframework \
-    libdrmframework_jni \
     libfilterfw \
     libkeystore \
-    libsqlite_jni \
     libwilhelm \
     logd \
     make_ext4fs \

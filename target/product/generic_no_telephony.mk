@@ -35,8 +35,6 @@ PRODUCT_PACKAGES += \
     screenrecord
 
 PRODUCT_PACKAGES += \
-    librs_jni \
-    libvideoeditor_jni \
     libvideoeditor_core \
     libvideoeditor_osal \
     libvideoeditor_videofilters \
@@ -58,16 +56,13 @@ PRODUCT_COPY_FILES := \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.carrier=unknown
 
-$(call inherit-product-if-exists, frameworks/base/data/fonts/fonts.mk)
-$(call inherit-product-if-exists, external/google-fonts/dancing-script/fonts.mk)
-$(call inherit-product-if-exists, external/google-fonts/carrois-gothic-sc/fonts.mk)
-$(call inherit-product-if-exists, external/google-fonts/coming-soon/fonts.mk)
-$(call inherit-product-if-exists, external/google-fonts/cutive-mono/fonts.mk)
+$(call inherit-product, external/moztt/fonts.mk)
 $(call inherit-product-if-exists, external/noto-fonts/fonts.mk)
 $(call inherit-product-if-exists, external/naver-fonts/fonts.mk)
 $(call inherit-product-if-exists, frameworks/base/data/keyboards/keyboards.mk)
 $(call inherit-product-if-exists, frameworks/webview/chromium/chromium.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
+$(call inherit-product, gonk-misc/b2g.mk)
 
 # Overrides
 PRODUCT_BRAND := generic

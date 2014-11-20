@@ -16,7 +16,7 @@
 # Rules to check if classes in the boot jars are from the whitelisted packages.
 #
 
-ifneq ($(SKIP_BOOT_JARS_CHECK),true)
+ifneq ($(SKIP_BOOT_JARS_CHECK),)
 ifneq ($(TARGET_BUILD_PDK),true)
 ifdef PRODUCT_BOOT_JARS
 

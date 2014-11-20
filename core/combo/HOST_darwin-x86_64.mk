@@ -37,7 +37,7 @@ HOST_TOOLCHAIN_PREFIX := $(HOST_TOOLCHAIN_ROOT)/bin/i686-apple-darwin$(gcc_darwi
 ifneq (,$(strip $(wildcard $(HOST_TOOLCHAIN_PREFIX)-gcc)))
 HOST_CC  := $(HOST_TOOLCHAIN_PREFIX)-gcc
 HOST_CXX := $(HOST_TOOLCHAIN_PREFIX)-g++
-ifeq ($(mac_sdk_version),10.8)
+ifneq ($(filter 10.8 10.9 10.10, $(mac_sdk_version)),)
 # Mac SDK 10.8 no longer has stdarg.h, etc
 host_toolchain_header := $(HOST_TOOLCHAIN_ROOT)/lib/gcc/i686-apple-darwin$(gcc_darwin_version)/4.2.1/include
 HOST_GLOBAL_CFLAGS += -isystem $(host_toolchain_header)
@@ -46,6 +46,14 @@ else
 HOST_CC := gcc
 HOST_CXX := g++
 endif # $(HOST_TOOLCHAIN_PREFIX)-gcc exists
+
+ifneq ($(filter $(mac_sdk_version),10.9 10.10),)
+# 10.9+ SDK C++ header path
+HOST_GLOBAL_CFLAGS += -isystem $(mac_sdk_root)/usr/include/c++/4.2.1
+# Carbon API GetCurrentProcess() is deprecated
+HOST_GLOBAL_CFLAGS += -DCARBON_GET_CURRENT_PROCESS_DEPRECATED
+HOST_GLOBAL_LDFLAGS += -stdlib=libstdc++
+endif
 
 # gcc location for clang; to be updated when clang is updated
 # HOST_TOOLCHAIN_ROOT is a Darwin-specific define
@@ -65,7 +73,7 @@ HOST_JNILIB_SUFFIX := .jnilib
 HOST_GLOBAL_CFLAGS += \
     -include $(call select-android-config-h,darwin-x86)
 
-ifneq ($(filter 10.7 10.7.% 10.8 10.8.%, $(build_mac_version)),)
+ifneq ($(filter 10.7 10.7.% 10.8 10.8.% 10.9 10.9.% 10.10 10.10.%, $(build_mac_version)),)
        HOST_RUN_RANLIB_AFTER_COPYING := false
 else
        HOST_RUN_RANLIB_AFTER_COPYING := true

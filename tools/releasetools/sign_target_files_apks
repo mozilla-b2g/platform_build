@@ -146,7 +146,13 @@ def SignApk(data, keyname, pw):
 def ProcessTargetFiles(input_tf_zip, output_tf_zip, misc_info,
                        apk_key_map, key_passwords):
 
-  maxsize = max([len(os.path.basename(i.filename))
+  # For B2G, there are no apks in the target-files package.
+  # We cover that case by defaulting to a maxsize of 0.
+  maxsize = 0
+  apks = [i for i in input_tf_zip.infolist()
+          if i.filename.endswith('.apk')]
+  if apks:
+    maxsize = max([len(os.path.basename(i.filename))
                  for i in input_tf_zip.infolist()
                  if i.filename.endswith('.apk')])
   rebuild_recovery = False
@@ -364,11 +370,10 @@ def ReplaceOtaKeys(input_tf_zip, output_tf_zip, misc_info):
   # predigested (by DumpPublicKey.java) and put in res/keys.
   # extra_recovery_keys are used only in recovery.
 
-  p = common.Run(["java", "-jar",
-                  os.path.join(OPTIONS.search_path, "framework", "dumpkey.jar")]
-                 + mapped_keys + extra_recovery_keys,
-                 stdout=subprocess.PIPE)
-  new_recovery_keys, _ = p.communicate()
+  # On B2G we don't build java jars, use a python implementation of dumpkey instead.
+  p = common.Run([os.path.join(os.path.dirname(__file__), "..", "dumpkey.py")]
+                 + mapped_keys + extra_recovery_keys, stdout=subprocess.PIPE)
+  data, _ = p.communicate()
   if p.returncode != 0:
     raise common.ExternalError("failed to run dumpkeys")
   common.ZipWriteStr(output_tf_zip, "RECOVERY/RAMDISK/res/keys",
