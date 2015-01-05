@@ -39,6 +39,7 @@ PRODUCT_PACKAGES += \
 
 # Device modules
 PRODUCT_PACKAGES += \
+    bluetoothd \
     egl.cfg \
     gralloc.goldfish \
     libGLESv1_CM_emulation \
