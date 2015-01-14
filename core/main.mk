@@ -41,14 +41,13 @@ endif
 # (Allow any version under Cygwin since we don't actually build the platform there.)
 need := 3.81
 ifeq (,$(findstring CYGWIN,$(shell uname -sm)))
-ifeq ($(need),$(firstword $(sort $(MAKE_VERSION) $(need))))
+ifneq ($(need),$(firstword $(sort $(MAKE_VERSION) $(need))))
 $(warning ********************************************************************************)
 $(warning *  You are using version $(MAKE_VERSION) of make.)
 $(warning *  Android can only be built by versions 3.81 and 3.82.)
-$(warning *  see http://source.android.com/source/download.html)
+$(warning *  see https://source.android.com/source/download.html)
 $(warning ********************************************************************************)
 $(error stopping)
-endif
 endif
 endif
 
