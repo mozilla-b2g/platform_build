@@ -49,7 +49,9 @@ endif
 
 ifeq ($(strip $(GECKO_TOOLS_PREFIX)),)
     # Look for the existence of a better toolchain
-    gcc_toolchain_path := $(firstword $(wildcard prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi*/bin))
+    toolchains_on_path := $(wildcard prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi*/bin)
+    # Get the most recent vesion of the toolchain
+    gcc_toolchain_path := $(word $(words $(toolchains_on_path)),$(toolchains_on_path))
     ifneq ($(strip $(wildcard $(gcc_toolchain_path))),)
         GECKO_TOOLS_PREFIX := $(gcc_toolchain_path)/arm-linux-androideabi-
     endif
