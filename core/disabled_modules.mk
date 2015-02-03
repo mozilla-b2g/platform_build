@@ -4,7 +4,6 @@ DISABLED_USER_MODULES := \
 	surfaceflinger \
 	libsystem_server \
 	librs_jni \
-	libRS \
 	libandroid_servers \
 	libsurfaceflinger \
 	libtestplugin \
