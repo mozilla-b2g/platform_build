@@ -18,6 +18,8 @@
 # emulator-related modules to PRODUCT_PACKAGES.
 #
 
+EMULATOR_MULTI_SIM := 2
+
 # Host modules
 PRODUCT_PACKAGES += \
     emulator-standalone \
@@ -51,6 +53,6 @@ PRODUCT_COPY_FILES += \
     device/generic/goldfish/ueventd.goldfish.rc:root/ueventd.goldfish.rc
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.moz.ril.numclients=9 \
+    ro.moz.ril.numclients=$(EMULATOR_MULTI_SIM) \
     ro.moz.ril.query_icc_count=true \
     $(empty)
