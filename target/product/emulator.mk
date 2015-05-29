@@ -51,5 +51,5 @@ PRODUCT_COPY_FILES += \
     device/generic/goldfish/ueventd.goldfish.rc:root/ueventd.goldfish.rc
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.moz.ril.numclients=9 \
+    ro.moz.ril.numclients=2 \
     $(empty)
