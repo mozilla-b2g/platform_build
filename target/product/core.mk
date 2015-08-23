@@ -92,6 +92,7 @@ PRODUCT_PACKAGES := \
     libstagefright_soft_mpeg4dec \
     libstagefright_soft_vorbisdec \
     libstagefright_soft_vpxdec \
+    libttspico \
     libvariablespeed \
     libwebrtc_audio_preprocessing \
     libwilhelm \
