@@ -1399,30 +1399,7 @@ function godir () {
 # For some reason, installing the JDK doesn't make it show up in the
 # JavaVM.framework/Versions/1.7/ folder.
 function set_java_home() {
-    # Clear the existing JAVA_HOME value if we set it ourselves, so that
-    # we can reset it later, depending on the version of java the build
-    # system needs.
-    #
-    # If we don't do this, the JAVA_HOME value set by the first call to
-    # build/envsetup.sh will persist forever.
-    if [ -n "$ANDROID_SET_JAVA_HOME" ]; then
-      export JAVA_HOME=""
-    fi
-
-    if [ ! "$JAVA_HOME" ]; then
-      case `uname -s` in
-          Darwin)
-              export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
-              ;;
-          *)
-              export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
-              ;;
-      esac
-
-      # Keep track of the fact that we set JAVA_HOME ourselves, so that
-      # we can change it on the next envsetup.sh, if required.
-      export ANDROID_SET_JAVA_HOME=true
-    fi
+    export JAVA_HOME="$(gettop)/build/fake-jdk-tools"
 }
 
 # Print colored exit condition

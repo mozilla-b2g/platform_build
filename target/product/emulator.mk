@@ -20,7 +20,8 @@
 
 # Host modules
 PRODUCT_PACKAGES += \
-
+    emulator-standalone \
+    mksdcard
 
 # Device modules
 PRODUCT_PACKAGES += \
@@ -37,7 +38,6 @@ PRODUCT_PACKAGES += \
     qemu-props \
     qemud \
     camera.goldfish \
-    camera.goldfish.jpeg \
     lights.goldfish \
     gps.goldfish \
     fingerprint.goldfish \
@@ -57,3 +57,8 @@ PRODUCT_COPY_FILES += \
     device/generic/goldfish/init.ranchu.rc:root/init.ranchu.rc \
     device/generic/goldfish/fstab.ranchu:root/fstab.ranchu \
     device/generic/goldfish/ueventd.ranchu.rc:root/ueventd.ranchu.rc
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.moz.ril.numclients=9 \
+    ro.moz.ril.query_icc_count=true \
+    $(empty)

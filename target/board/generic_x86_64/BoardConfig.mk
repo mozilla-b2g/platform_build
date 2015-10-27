@@ -51,3 +51,12 @@ TARGET_USERIMAGES_SPARSE_EXT_DISABLED := true
 BOARD_SEPOLICY_DIRS += \
         build/target/board/generic/sepolicy \
         build/target/board/generic_x86/sepolicy
+
+# Build flags for Wifi Marionette Test
+BOARD_WPA_SUPPLICANT_DRIVER := TEST
+BOARD_HOSTAPD_DRIVER := TEST
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+CONFIG_EAP := true
+CONFIG_EAP_PEAP := true
+CONFIG_EAP_TTLS := true

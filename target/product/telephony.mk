@@ -21,6 +21,8 @@ PRODUCT_PACKAGES := \
     CarrierConfig \
     Dialer \
     CallLogBackup \
-    rild
+    Mms \
+    rild \
+    wpa_supplicant
 
 PRODUCT_COPY_FILES := \

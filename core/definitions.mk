@@ -2495,6 +2495,10 @@ include $(BUILD_SYSTEM)/distdir.mk
 -include $(TOPDIR)vendor/*/build/core/definitions.mk
 -include $(TOPDIR)device/*/build/core/definitions.mk
 
+# -----------------------------------------------------------------
+# The modules allowed to use a user tag
+include $(BUILD_SYSTEM)/disabled_modules.mk
+
 # broken:
 #	$(foreach file,$^,$(if $(findstring,.a,$(suffix $file)),-l$(file),$(file)))
 

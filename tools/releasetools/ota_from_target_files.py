@@ -146,9 +146,11 @@ def IsRegular(info):
 def ClosestFileMatch(src, tgtfiles, existing):
   """Returns the closest file match between a source file and list
      of potential matches.  The exact filename match is preferred,
-     then the sha1 is searched for, and finally a file with the same
-     basename is evaluated.  Rename support in the updater-binary is
-     required for the latter checks to be used."""
+     and then the sha1 is searched for. Rename support in the
+     updater-binary is required for the latter checks to be used.
+
+     We do not match basename any longer to avoid corrupting the
+     B2G webapp store."""
 
   result = tgtfiles.get("path:" + src.name)
   if result is not None:
@@ -160,12 +162,6 @@ def ClosestFileMatch(src, tgtfiles, existing):
   if src.size < 1000:
     return None
 
-  result = tgtfiles.get("sha1:" + src.sha1)
-  if result is not None and existing.get(result.name) is None:
-    return result
-  result = tgtfiles.get("file:" + src.name.split("/")[-1])
-  if result is not None and existing.get(result.name) is None:
-    return result
   return None
 
 class ItemSet(object):
@@ -316,37 +312,42 @@ class Item(object):
 
   def SetPermissions(self, script):
     """Append set_perm/set_perm_recursive commands to 'script' to
-    set all permissions, users, and groups for the tree of files
-    rooted at 'self'."""
+    set all permissions, users, and groups for the file at 'self' or
+    the tree of files rooted at 'self'."""
 
-    self.CountChildMetadata()
+    if self.dir:
+      self.CountChildMetadata()
 
-    def recurse(item, current):
-      # current is the (uid, gid, dmode, fmode, selabel, capabilities) tuple
-      # that the current item (and all its children) have already been set to.
-      # We only need to issue set_perm/set_perm_recursive commands if we're
-      # supposed to be something different.
-      if item.is_dir:
-        if current != item.best_subtree:
-          script.SetPermissionsRecursive("/"+item.name, *item.best_subtree)
-          current = item.best_subtree
+      def recurse(item, current):
+        # current is the (uid, gid, dmode, fmode, selabel, capabilities)
+        # tuple that the current item (and all its children) have already
+        # been set to.  We only need to issue set_perm/set_perm_recursive
+        # commands if we're supposed to be something different.
+        if item.dir:
+          if current != item.best_subtree:
+            script.SetPermissionsRecursive("/"+item.name, *item.best_subtree)
+            current = item.best_subtree
 
-        if item.uid != current[0] or item.gid != current[1] or \
-           item.mode != current[2] or item.selabel != current[4] or \
-           item.capabilities != current[5]:
-          script.SetPermissions("/"+item.name, item.uid, item.gid,
-                                item.mode, item.selabel, item.capabilities)
+          if item.uid != current[0] or item.gid != current[1] or \
+             item.mode != current[2] or item.selabel != current[4] or \
+             item.capabilities != current[5]:
+            script.SetPermissions("/"+item.name, item.uid, item.gid,
+                                  item.mode, item.selabel, item.capabilities)
 
-        for i in item.children:
-          recurse(i, current)
-      else:
-        if item.uid != current[0] or item.gid != current[1] or \
-               item.mode != current[3] or item.selabel != current[4] or \
-               item.capabilities != current[5]:
-          script.SetPermissions("/"+item.name, item.uid, item.gid,
-                                item.mode, item.selabel, item.capabilities)
+          for i in item.children:
+            recurse(i, current)
+        else:
+          if item.uid != current[0] or item.gid != current[1] or \
+                 item.mode != current[3] or item.selabel != current[4] or \
+                 item.capabilities != current[5]:
+            script.SetPermissions("/"+item.name, item.uid, item.gid,
+                                  item.mode, item.selabel, item.capabilities)
 
-    recurse(self, (-1, -1, -1, -1, None, None))
+      recurse(self, (-1, -1, -1, -1, None, None))
+    else:
+      if self.name in self.itemset.ITEMS:
+        script.SetPermissions("/"+self.name, self.uid, self.gid,
+                              self.mode, self.selabel, self.capabilities)
 
 
 def CopyPartitionFiles(itemset, input_zip, output_zip=None, substitute=None):
@@ -997,8 +998,7 @@ class FileDifference(object):
       # Only allow eligibility for filename/sha matching
       # if there isn't a perfect path match.
       if target_data.get(sf.name) is None:
-        matching_file_cache["file:" + fn.split("/")[-1]] = sf
-        matching_file_cache["sha:" + sf.sha1] = sf
+        matching_file_cache["sha1:" + sf.sha1] = sf
 
     for fn in sorted(target_data.keys()):
       tf = target_data[fn]
@@ -1275,6 +1275,16 @@ else if get_stage("%(bcb_dev)s") != "3/3" then
       size.append(vendor_diff.largest_source_size)
   if size or updating_recovery or updating_boot:
     script.CacheFreeSpaceCheck(max(size))
+
+  if patch_list or updating_recovery or updating_boot:
+    # We clear Gecko's HTTP cache before the regular space check.
+    # During CacheFreeSpaceCheck(), the update-binary tries to clear files in
+    # /cache to free up the desired space. However, update-binary does not
+    # see the Gecko HTTP cache as safe to delete so it won't be touched.
+    script.Print("Clearing Gecko HTTP cache...")
+    script.DeleteFilesRecursive(["/cache/Cache"])
+    script.DeleteFilesRecursive(["/cache/cache2"])
+    script.CacheFreeSpaceCheck(largest_source_size)
 
   device_specific.IncrementalOTA_VerifyEnd()
 
