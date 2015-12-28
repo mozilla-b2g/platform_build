@@ -150,5 +150,5 @@ endef
 
 # $(1): The file to check
 define get-file-size
-stat -f "%z" $(1)
+stat -c "%s" $(1)
 endef
