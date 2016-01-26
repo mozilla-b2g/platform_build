@@ -97,3 +97,6 @@ WIFI_DRIVER_FW_PATH_PARAM := "/data/misc/wifi/fake_fwpath"
 
 # Bug 1124567: Disable Gaia screen timeout
 BOARD_GAIA_MAKE_FLAGS := SCREEN_TIMEOUT=0
+
+# Set GECKO toolchain
+GECKO_TOOLS_PREFIX = prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-
