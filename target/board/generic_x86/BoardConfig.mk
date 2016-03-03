@@ -56,3 +56,7 @@ CONFIG_EAP := true
 CONFIG_EAP_PEAP := true
 CONFIG_EAP_TTLS := true
 CONFIG_EAP_TLS := true
+
+# Set Gecko toolchain. If it's not set here, Gecko will use the same toolchain
+# used to build Gonk
+GECKO_TOOLS_PREFIX = prebuilts/gcc/$(HOST_PREBUILT_TAG)/x86/x86_64-linux-android-4.9/bin/x86_64-linux-android-
