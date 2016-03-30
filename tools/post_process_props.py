@@ -28,6 +28,8 @@ def mangle_default_prop(prop):
   # (this is for userdebug builds)
   if prop.get("ro.debuggable") == "1":
     val = prop.get("persist.sys.usb.config")
+    if val == "none":
+        val = ""
     if val == "":
       val = "adb"
     else:
