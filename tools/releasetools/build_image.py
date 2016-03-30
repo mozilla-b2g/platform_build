@@ -139,12 +139,15 @@ def ImagePropFromGlobalDict(glob_dict, mount_point):
   if mount_point == "system":
     copy_prop("fs_type", "fs_type")
     copy_prop("system_size", "partition_size")
+    copy_prop("system_extfs_sparse_flag", "extfs_sparse_flag")
   elif mount_point == "data":
     copy_prop("fs_type", "fs_type")
     copy_prop("userdata_size", "partition_size")
+    copy_prop("userdata_extfs_sparse_flag", "extfs_sparse_flag")
   elif mount_point == "cache":
     copy_prop("cache_fs_type", "fs_type")
     copy_prop("cache_size", "partition_size")
+    copy_prop("cache_extfs_sparse_flag", "extfs_sparse_flag")
   elif mount_point == "vendor":
     copy_prop("vendor_fs_type", "fs_type")
     copy_prop("vendor_size", "partition_size")

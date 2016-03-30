@@ -222,6 +222,10 @@ class EdifyGenerator(object):
         self.script.append(
             'write_raw_image(package_extract_file("%(fn)s"), "%(device)s");'
             % args)
+      elif partition_type == "UBI":
+        self.script.append(
+            'write_raw_image(package_extract_file("%(fn)s"), "%(device)s", "UBI");'
+            % args)
       elif partition_type == "EMMC":
         self.script.append(
             'package_extract_file("%(fn)s", "%(device)s");' % args)
